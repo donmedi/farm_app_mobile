@@ -1,30 +1,37 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
+import 'package:farm_loan_app/main.dart'; // Your main file
+import 'package:farm_loan_app/routes/app_routes.dart';
+import 'package:farm_loan_app/themes/theme_type.dart';
+import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
+import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
+import 'package:farm_loan_app/views/repayment_screen/services/repayment_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:farm_loan_app/main.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('Farm Loan App initial setup test', (WidgetTester tester) async {
+    // Build the app and trigger a frame
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => AuthProvider()),
+          ChangeNotifierProvider(create: (_) => DashboardServices()),
+          ChangeNotifierProvider(create: (_) => RepaymentService()),
+        ],
+        child: const MyApp(),
+      ),
+    );
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Ensure the app starts with the correct initial route
+    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.text('Farm Loan App'), findsNothing);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Check the correct initial route
+    expect(AppRouter.navigatorKey.currentState?.canPop(), false);
+    expect(AppRouter.welcome, '/welcome');
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Check the theme
+    final MaterialApp materialApp = tester.widget(find.byType(MaterialApp));
+    expect(materialApp.theme, ThemeType.light);
   });
 }

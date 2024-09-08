@@ -21,7 +21,7 @@ class LoanRepaymentWidget extends StatefulWidget {
 }
 
 class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _amountController = TextEditingController();
   TextEditingController _controllerProduce = TextEditingController();
   TextEditingController _loanController = TextEditingController();
 
@@ -52,16 +52,16 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
   }
 
   String _selectedProduce = '';
+  String _selectedPrice = '';
 
-  void _handleProduceChange(String? value) {
+  void _handleProduceChange(String? value, String price) {
     setState(() {
+      _selectedPrice = price;
       _selectedProduce = value!;
       _controllerProduce.text = value;
     });
     CustomRouters.routePop(context);
   }
-
-  String _selectedPrice = '';
 
   @override
   Widget build(BuildContext context) {
@@ -162,8 +162,10 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
                           ..._priceList.map((item) => GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    _selectedPrice = item;
-                                    _controller.text = item;
+                                    // _selectedProduce = item['name'];
+                                    // _selectedPrice = item['price'].toString();
+                                    _amountController.text =
+                                        item['price'].toString();
                                   });
                                 },
                                 child: Container(
@@ -195,7 +197,7 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
                       ),
                       CustomFormInput(
                           label: '',
-                          controller: _controller,
+                          controller: _amountController,
                           valText: '',
                           placeHolder: 'Amount to repay',
                           callBack: (e) {}),
@@ -205,34 +207,26 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
             SizedBox(
               height: 15.h,
             ),
-            CustomFormDisabledInput(
-                label: 'Loan',
-                controller: _loanController,
-                valText: 'Loan is required',
-                placeHolder: 'Select loan to repay',
-                callBack: () {
-                  customBottomSheet(
-                      context,
-                      LoanListWidget(
-                          handleAddressChange: () {
-                            setState(() {
-                              // _branch.text = e;
-                            });
-                            CustomRouters.routePop(context);
-                          },
-                          selectedProduce: ''));
-                }),
             SizedBox(
               height: 32.h,
             ),
             CustomPrimaryButton(
-                title: 'Submit',
+                title: 'Continue',
                 callBack: () {
                   if (_formKey.currentState!.validate()) {
                     if (_paymentType == 'farm_produce') {
-                      customBottomSheet(context, FarmDeliveryInfo());
+                      customBottomSheet(
+                          context,
+                          FarmDeliveryInfo(
+                            amount: _selectedPrice,
+                            produceType: _selectedProduce,
+                          ));
                     } else {
-                      customBottomSheet(context, PayCardWidget());
+                      customBottomSheet(
+                          context,
+                          PayCardWidget(
+                            amount: _amountController.text,
+                          ));
                     }
                   }
                 }),

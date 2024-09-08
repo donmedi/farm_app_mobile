@@ -41,7 +41,7 @@ class LoanListWidget extends StatelessWidget {
               final produce = loanList[index];
               return RadioListTile<String>(
                 title: Text('${produce['outstanding']}'),
-                value: produce['outstanding'],
+                value: produce['outstanding'].toString(),
                 groupValue: selectedProduce,
                 onChanged: (e) {
                   handleAddressChange(e);

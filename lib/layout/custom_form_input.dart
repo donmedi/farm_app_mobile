@@ -308,27 +308,48 @@ class CustomFormDisabledInput extends StatelessWidget {
         decoration: InputDecoration(
             hintText: placeHolder ?? '',
             suffixIcon: Icon(FeatherIcons.chevronDown)),
-        //   contentPadding: EdgeInsets.symmetric(horizontal: 5.sp),
-        //   prefix: SizedBox(width: 10),
-        //   hintStyle: TextStyle(fontSize: 12.sp, color: Colors.black45),
-        //   filled: true,
-        //   fillColor: Color(0xffFffffff),
-        //   errorStyle: TextStyle(
-        //     fontSize: 12.sp,
-        //   ),
-        //   focusedErrorBorder: OutlineInputBorder(
-        //       borderSide: BorderSide(color: Color(0xffD9DDE2), width: 1),
-        //       borderRadius: BorderRadius.circular(5.r)),
-        //   enabledBorder: OutlineInputBorder(
-        //       borderSide: BorderSide(color: Color(0xffD9DDE2), width: 1),
-        //       borderRadius: BorderRadius.circular(5.r)),
-        //   errorBorder: OutlineInputBorder(
-        //       borderSide: BorderSide(color: mainSecondaryRed, width: 1),
-        //       borderRadius: BorderRadius.circular(5.r)),
-        //   focusedBorder: OutlineInputBorder(
-        //       borderSide: BorderSide(color: Color(0xffD9DDE2), width: 1),
-        //       borderRadius: BorderRadius.circular(5.r)),
-        // ),
+      )
+    ]);
+  }
+}
+
+class CustomFormDisabledInput2 extends StatelessWidget {
+  String label;
+  TextEditingController controller;
+  String valText;
+  VoidCallback callBack;
+  String? placeHolder;
+  CustomFormDisabledInput2(
+      {super.key,
+      required this.label,
+      this.placeHolder,
+      required this.controller,
+      required this.valText,
+      required this.callBack});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(label),
+      SizedBox(
+        height: 5,
+      ),
+      TextFormField(
+        onTap: () {
+          callBack.call();
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '\u{26A0}${valText}';
+          }
+          return null;
+        },
+        readOnly: true,
+        controller: controller,
+        style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
+        decoration: InputDecoration(
+          hintText: placeHolder ?? '',
+        ),
       )
     ]);
   }

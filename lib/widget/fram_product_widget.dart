@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -10,16 +12,16 @@ class FarmProductWidget extends StatelessWidget {
       required this.selectedProduce});
 
   List<Map<String, dynamic>> _produceList = [
-    {'name': '1 tuber of yam', 'price': 'NGN5000'},
-    {'name': '1 sack of rice', 'price': 'NGN10000'},
-    {'name': '1 bag of beans', 'price': 'NGN8000'},
-    {'name': '10 ears of corn', 'price': 'NGN2000'},
-    {'name': '20 tomatoes', 'price': 'NGN1500'},
-    {'name': '10 kg of cassava', 'price': 'NGN6000'},
-    {'name': '5 kg of potatoes', 'price': 'NGN3000'},
-    {'name': '50 oranges', 'price': 'NGN2500'},
-    {'name': '20 apples', 'price': 'NGN4000'},
-    {'name': '1 crate of eggs', 'price': 'NGN3500'},
+    {'name': '1 tuber of yam', 'price': '5000'},
+    {'name': '1 sack of rice', 'price': '10000'},
+    {'name': '1 bag of beans', 'price': '8000'},
+    {'name': '10 ears of corn', 'price': '2000'},
+    {'name': '20 tomatoes', 'price': '1500'},
+    {'name': '10 kg of cassava', 'price': '6000'},
+    {'name': '5 kg of potatoes', 'price': '3000'},
+    {'name': '50 oranges', 'price': '2500'},
+    {'name': '20 apples', 'price': '4000'},
+    {'name': '1 crate of eggs', 'price': '3500'},
   ];
 
   // String _selectedProduce = '1 tuber of yam';
@@ -47,11 +49,12 @@ class FarmProductWidget extends StatelessWidget {
             itemBuilder: (context, index) {
               final produce = _produceList[index];
               return RadioListTile<String>(
-                title: Text('${produce['name']} = ${produce['price']}'),
+                title: Text('${produce['name']} = NGN${produce['price']}'),
                 value: produce['name'],
                 groupValue: selectedProduce,
                 onChanged: (e) {
-                  handleProduceChange(e);
+                  log('selected $e');
+                  handleProduceChange(produce['name'], produce['price']);
                 },
                 visualDensity: VisualDensity.compact,
               );

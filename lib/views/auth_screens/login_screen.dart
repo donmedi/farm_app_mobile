@@ -107,8 +107,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           });
                         });
                       }
-                      // CustomRouters.routePushWithName(
-                      //     context, AppRouter.dashboard);
                     }),
                 SizedBox(
                   height: 34.h,
@@ -116,10 +114,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Forgot Password',
-                      style: TextStyle(
-                          fontSize: 14.sp, fontWeight: FontWeight.w600),
+                    InkWell(
+                      onTap: () {
+                        CustomRouters.routePushWithName(
+                            context, AppRouter.forgot_password);
+                      },
+                      child: Text(
+                        'Forgot Password',
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.w600),
+                      ),
                     ),
                     InkWell(
                         onTap: () {

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1056713918058",
+    "project_id": "farmhouse-bfefe",
+    "storage_bucket": "farmhouse-bfefe.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1056713918058:android:5061e7a59dd28290b96c13",
+        "android_client_info": {
+          "package_name": "com.example.farm_loan_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkvlDfHn5i5dThcRvPInAqyh6G619eibI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

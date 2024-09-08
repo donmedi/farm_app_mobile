@@ -8,7 +8,9 @@ import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/views/auth_screens/model/authModel.dart';
 import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
 import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
+import 'package:farm_loan_app/views/dashboard/widget/histroy_widget.dart';
 import 'package:farm_loan_app/views/dashboard/widget/wallet_modal.dart';
+import 'package:farm_loan_app/views/repayment_screen/model/history_model.dart';
 import 'package:farm_loan_app/views/transactions/widget/transaction_details.dart';
 import 'package:farm_loan_app/widget/helper.dart';
 import 'package:farm_loan_app/widget/repayment_widget.dart';
@@ -53,12 +55,16 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
       RouteClass(
           title: 'Repay',
           callBack: () {
-            customBottomSheet(context, LoanRepaymentWidget());
+            CustomRouters.routePushWithName(
+                context, AppRouter.repayment_screen);
+            // customBottomSheet(context, LoanRepaymentWidget());
           },
           icon: Icons.handshake),
     ];
 
     AuthModel? userData = context.watch<AuthProvider>().userData;
+    List<HistoryModel> historyList =
+        context.watch<DashboardServices>().histories;
 
     log('balance ${userData?.wallet?.balance}');
     return Scaffold(
@@ -158,43 +164,7 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
             SizedBox(
               height: 30.h,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Recent Transactions',
-                  style:
-                      TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
-                ),
-                Text(
-                  'See all',
-                  style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      decoration: TextDecoration.underline),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            ...List.generate(10, (e) {
-              return ListTile(
-                onTap: () {
-                  customBottomSheet(context, TransactionDetails());
-                },
-                leading: CircleAvatar(
-                  backgroundColor: ColorConst.darkText,
-                  child: Icon(FeatherIcons.arrowDownLeft),
-                ),
-                title: Text('Repayment'),
-                subtitle: Text('12/3/2024'),
-                trailing: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [Text('NGN12,000'), statusBar('success')],
-                ),
-              );
-            })
+            HistoryWidget()
           ],
         ),
       ),
