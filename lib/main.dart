@@ -103,10 +103,6 @@ class _MyAppState extends State<MyApp> {
         }, duration: const Duration(seconds: 10));
       }
     });
-
-    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-    //   customNotificationModal(navigatorKey.currentContext, message);
-    // });
   }
 
   // This widget is the root of your application.

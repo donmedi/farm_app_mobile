@@ -1,4 +1,5 @@
 import 'package:farm_loan_app/constant/color_const.dart';
+import 'package:farm_loan_app/layout/empty_transactions.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
 import 'package:farm_loan_app/views/dashboard/widget/histroy_widget.dart';
@@ -34,9 +35,13 @@ class _TransactionScreenState extends State<TransactionScreen> {
         automaticallyImplyLeading: false,
         title: Text('Transactions'),
       ),
-      body: ListView(
-        children: [...historyList.map((item) => HistoryCard(item: item))],
-      ),
+      body: historyList.isEmpty
+          ? Center(
+              child: EmptyTransaction(),
+            )
+          : ListView(
+              children: [...historyList.map((item) => HistoryCard(item: item))],
+            ),
     );
   }
 }

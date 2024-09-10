@@ -34,7 +34,7 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
 
   final _formKey = GlobalKey<FormState>();
 
-  List _priceList = ['2000', '5000', '10000', '20000'];
+  List<String> _priceList = ['2000', '5000', '10000', '20000'];
 
   String _paymentType = '';
   String _repaymentTime = '';
@@ -150,7 +150,7 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Repayment Amount',
+                        'Repayment Amounts',
                         style: TextStyle(
                             fontSize: 16.sp, fontWeight: FontWeight.w400),
                       ),
@@ -159,13 +159,11 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
                       ),
                       Row(
                         children: [
-                          ..._priceList.map((item) => GestureDetector(
+                          ..._priceList.map((item) => InkWell(
                                 onTap: () {
                                   setState(() {
-                                    // _selectedProduce = item['name'];
-                                    // _selectedPrice = item['price'].toString();
-                                    _amountController.text =
-                                        item['price'].toString();
+                                    _amountController.text = item.toString();
+                                    _selectedPrice = item.toString();
                                   });
                                 },
                                 child: Container(

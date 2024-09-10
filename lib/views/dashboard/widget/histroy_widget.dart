@@ -1,4 +1,5 @@
 import 'package:farm_loan_app/constant/color_const.dart';
+import 'package:farm_loan_app/layout/empty_transactions.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/tools/date_time_management.dart';
 import 'package:farm_loan_app/tools/helper.dart';
@@ -41,9 +42,15 @@ class HistoryWidget extends StatelessWidget {
           SizedBox(
             height: 10.h,
           ),
-          ...historyList.map((item) => HistoryCard(
-                item: item,
-              ))
+          historyList.isEmpty
+              ? EmptyTransaction()
+              : Column(
+                  children: [
+                    ...historyList.map((item) => HistoryCard(
+                          item: item,
+                        ))
+                  ],
+                )
         ],
       ),
     );

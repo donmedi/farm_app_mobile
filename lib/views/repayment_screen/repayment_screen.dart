@@ -1,3 +1,4 @@
+import 'package:farm_loan_app/layout/empty_transactions.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/tools/date_time_management.dart';
 import 'package:farm_loan_app/tools/helper.dart';
@@ -33,64 +34,66 @@ class _RepaymentScreenState extends State<RepaymentScreen> {
           elevation: 0,
           title: Text('Repayment'),
         ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(20.sp),
-          child: Column(
-            children: [
-              ...data.map((item) => InkWell(
-                    onTap: () {
-                      context
-                          .read<RepaymentService>()
-                          .addRequestId(item.sId ?? '');
-                      customBottomSheet(context, LoanRepaymentWidget());
-                    },
-                    child: Card(
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 15.h, horizontal: 20.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  'Loan Deadline: ',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  DateTimeManagmentClass.formattedDate(
-                                      item.loanDate ?? ''),
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ],
+        body: data.isEmpty
+            ? Center(child: EmptyTransaction())
+            : SingleChildScrollView(
+                padding: EdgeInsets.all(20.sp),
+                child: Column(
+                  children: [
+                    ...data.map((item) => InkWell(
+                          onTap: () {
+                            context
+                                .read<RepaymentService>()
+                                .addRequestId(item.sId ?? '');
+                            customBottomSheet(context, LoanRepaymentWidget());
+                          },
+                          child: Card(
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 15.h, horizontal: 20.w),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Loan Deadline: ',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        DateTimeManagmentClass.formattedDate(
+                                            item.loanDate ?? ''),
+                                        style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Outstanding Balance: ',
+                                        style: TextStyle(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      Text(
+                                        'NGN${digitConverterString(item.outstanding ?? '0')}',
+                                        style: TextStyle(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.w500),
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Outstanding Balance: ',
-                                  style: TextStyle(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                                Text(
-                                  'NGN${digitConverterString(item.outstanding ?? '0')}',
-                                  style: TextStyle(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w500),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ))
-            ],
-          ),
-        ));
+                          ),
+                        ))
+                  ],
+                ),
+              ));
   }
 }

@@ -29,7 +29,9 @@ class RepaymentService extends ChangeNotifier {
           list.map((item) => RepaymentModel.fromJson(item)).toList();
       notifyListeners();
     } else {
-      NotificationClass.showFailedToast(context, 'Error', response['message']);
+      outstandingHistory = [];
+      notifyListeners();
+      // NotificationClass.showFailedToast(context, 'Error', response['message']);
     }
   }
 

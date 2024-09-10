@@ -23,7 +23,8 @@ class DashboardServices extends ChangeNotifier {
     var response = request?.data;
     if (response['success'] == true) {
       CustomRouters.routePop(context);
-      // getProfile(context);
+      fetchOutstanding(context);
+      fetchHistory(context);
       successModalMinimal(context, 'Loan Reqest Successful');
     } else {
       NotificationClass.showFailedToast(context, 'Error', response['message']);
