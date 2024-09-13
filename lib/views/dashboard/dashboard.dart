@@ -5,6 +5,7 @@ import 'package:farm_loan_app/layout/custom_button.dart';
 import 'package:farm_loan_app/routes/app_routes.dart';
 import 'package:farm_loan_app/routes/custom_router.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
+import 'package:farm_loan_app/tools/helper.dart';
 import 'package:farm_loan_app/views/auth_screens/model/authModel.dart';
 import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
 import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
@@ -115,9 +116,13 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Overall Balance'),
                         Text(
-                          'NGN ${userData?.wallet?.balance}',
+                          'Overall Balance',
+                          style: TextStyle(
+                              fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        ),
+                        Text(
+                          'NGN ${digitConverterString(userData?.wallet?.balance ?? '0')}',
                           style: TextStyle(
                               fontSize: 32.sp, fontWeight: FontWeight.w800),
                         ),

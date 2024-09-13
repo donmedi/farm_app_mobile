@@ -143,6 +143,129 @@ class CustomNumberInput extends StatelessWidget {
   }
 }
 
+class ExpireyDateInput extends StatelessWidget {
+  TextEditingController controller;
+  String hintText;
+  ExpireyDateInput({
+    super.key,
+    required this.controller,
+    required this.hintText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Expiry Date"),
+        SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly, // Allow only digits
+            LengthLimitingTextInputFormatter(5), // Max 5 characters for MM/YY
+            ExpiryDateInputFormatter() // Custom formatter for expiry date
+          ],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Expiry date is required';
+            } else if (value.length != 5) {
+              return 'Enter a valid expiry date (MM/YY)';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: 'MM/YY',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class ExpiryDateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text.replaceAll("/", ""); // Remove existing slash
+
+    if (newText.length > 4) {
+      newText = newText.substring(0, 4); // Restrict to 4 digits (MMYY)
+    }
+
+    if (newText.length >= 3) {
+      newText =
+          newText.substring(0, 2) + '/' + newText.substring(2, newText.length);
+    }
+
+    return newValue.copyWith(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
+
+class CustomNumberInput2 extends StatelessWidget {
+  String label;
+  TextEditingController controller;
+  String hintText;
+  String validationText;
+  int minLenght;
+  CustomNumberInput2(
+      {super.key,
+      required this.controller,
+      required this.hintText,
+      required this.label,
+      required this.minLenght,
+      required this.validationText});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          // style: TextStyle(fontSize: 12.sp),
+        ),
+        SizedBox(
+          height: 8.h,
+        ),
+        TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+
+          inputFormatters: [
+            FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
+            LengthLimitingTextInputFormatter(controller.text.length < minLenght
+                ? minLenght
+                : controller.text.length),
+          ],
+          // autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (e) {
+            if (controller.text == '') {
+              return validationText;
+            } else if (controller.text.length < minLenght) {
+              return '$label must be $minLenght digit';
+            }
+            return null;
+          },
+          onChanged: (e) {
+            if (e.length <= minLenght) {}
+          },
+          style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.w500),
+          decoration: InputDecoration(
+              // prefixIcon: Icon(Icons.call),
+              // fillColor: ColorConstant.inputBgGrey,
+              hintText: hintText),
+        ),
+      ],
+    );
+  }
+}
+
 class CustomPasswordConfirm extends StatefulWidget {
   String label;
   TextEditingController controller;
@@ -352,5 +475,67 @@ class CustomFormDisabledInput2 extends StatelessWidget {
         ),
       )
     ]);
+  }
+}
+
+class CardNumberFormInput extends StatelessWidget {
+  TextEditingController controller;
+
+  CardNumberFormInput({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Card Number"),
+        SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly, // Allow only digits
+            LengthLimitingTextInputFormatter(19), // 16 digits + 3 spaces
+            CardNumberInputFormatter() // Custom formatter
+          ],
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Card number is required';
+            } else if (value.replaceAll(" ", "").length != 16) {
+              return 'Card number must be 16 digits';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: '4444 5555 5555 5555',
+            border: OutlineInputBorder(),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class CardNumberInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text.replaceAll(" ", ""); // Remove spaces
+
+    if (newText.length > 16) {
+      newText = newText.substring(0, 16); // Restrict to 16 digits
+    }
+
+    List<String> parts = [];
+    for (int i = 0; i < newText.length; i += 4) {
+      parts.add(newText.substring(
+          i, i + 4 > newText.length ? newText.length : i + 4));
+    }
+
+    final formatted = parts.join(" ");
+    return newValue.copyWith(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
   }
 }

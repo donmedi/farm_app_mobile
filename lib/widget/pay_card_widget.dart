@@ -27,91 +27,102 @@ class _PayCardWidgetState extends State<PayCardWidget> {
 
   bool _loading = false;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return ModalProgressHUD(
       inAsyncCall: _loading,
       progressIndicator: loader,
-      child: SingleChildScrollView(
-        padding: EdgeInsets.all(24.sp),
-        child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Card Information',
-                  style:
-                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
-                ),
-                InkWell(
-                  onTap: () {
-                    CustomRouters.routePop(context);
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(FeatherIcons.x),
+      child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24.sp)
+              .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Card Information',
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w600),
                   ),
-                )
-              ],
-            ),
-            // CustomFormInput(
-            //     label: 'Card Number',
-            //     controller: _cardName,
-            //     valText: '',
-            //     callBack: (e) {}),
-            SizedBox(
-              height: 10.h,
-            ),
-            CustomFormInput(
-                label: 'Card Number',
+                  InkWell(
+                    onTap: () {
+                      CustomRouters.routePop(context);
+                    },
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Icon(FeatherIcons.x),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              CardNumberFormInput(
                 controller: _cardNumber,
-                valText: '',
-                callBack: (e) {}),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Flexible(
-                    child: CustomFormInput(
-                        label: 'CVV',
-                        controller: _cvv,
-                        valText: '',
-                        callBack: (e) {})),
-                SizedBox(
-                  width: 10.w,
-                ),
-                Flexible(
-                    child: CustomFormInput(
-                        label: 'Expiry Date',
-                        controller: _date,
-                        valText: '',
-                        callBack: (e) {})),
-              ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            CustomPrimaryButton(
-                title: 'Submit',
-                callBack: () {
-                  context.read<RepaymentService>().repaymentReq(context, {
-                    'requestId': context.read<RepaymentService>().requestId,
-                    "amountPaid": widget.amount,
-                    "cardNumber": _cardNumber.text,
-                    "isCard": true,
-                  }, (e) {
-                    setState(() {
-                      _loading = e;
-                    });
-                  });
-                  // successModalMinimal(context, 'Card Payment Successfully');
-                })
-          ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: [
+                  Flexible(
+                      child: CustomNumberInput2(
+                    label: 'CVV',
+                    controller: _cvv,
+                    validationText: 'CVV is required',
+                    minLenght: 3,
+                    hintText: 'e.g 055',
+                  )),
+                  SizedBox(
+                    width: 10.w,
+                  ),
+                  Flexible(
+                      child: ExpireyDateInput(
+                    hintText: 'Expiry Date',
+                    controller: _date,
+                  )),
+                ],
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              CustomPrimaryButton(
+                  title: 'Submit',
+                  callBack: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<RepaymentService>().repaymentReq(context, {
+                        'requestId': context.read<RepaymentService>().requestId,
+                        "amountPaid": widget.amount,
+                        "cardNumber": _cardNumber.text,
+                        "isCard": true,
+                      }, (e) {
+                        setState(() {
+                          _loading = e;
+                        });
+                      });
+                    }
+                  }),
+              SizedBox(
+                height: 50.h,
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+    // CustomFormInput(
+            //     label: 'Card Number',
+            //     controller: _cardName,
+            //     valText: '',
+            //     callBack: (e) {}),

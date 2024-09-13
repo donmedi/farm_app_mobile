@@ -59,7 +59,7 @@ class _WithdrawModalState extends State<WithdrawModal> {
                 children: [
                   Text('Wallet Balance: '),
                   Text(
-                    'NGN ${userData?.wallet?.balance}',
+                    'NGN ${digitConverterString(userData?.wallet?.balance ?? '0')}',
                     style:
                         TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600),
                   )

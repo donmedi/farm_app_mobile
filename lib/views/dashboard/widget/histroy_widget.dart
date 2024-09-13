@@ -78,7 +78,7 @@ class HistoryCard extends StatelessWidget {
       subtitle:
           Text(DateTimeManagmentClass.formattedDate(item.createdAt ?? '')),
       trailing: Text(
-          'NGN ${item.amountPaid != 'null' ? item.amountPaid : item.amount}'),
+          'NGN ${item.amountPaid != 'null' ? digitConverterString(item.amountPaid ?? '0') : digitConverterString(item.amount ?? '0')}'),
     );
   }
 }

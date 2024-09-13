@@ -93,7 +93,7 @@ class _RequestLoanWidgetState extends State<RequestLoanWidget> {
     int noOfMonths = _repaymentTime['noMonths'] ?? 0;
     double interestRate = 0.03; // 3% interest
     double grossTotal = amount + (amount * interestRate * noOfMonths);
-    return grossTotal.toStringAsFixed(2);
+    return digitConverterString(grossTotal.toStringAsFixed(2));
   }
 
   bool _loading = false;
@@ -106,7 +106,8 @@ class _RequestLoanWidgetState extends State<RequestLoanWidget> {
       inAsyncCall: _loading,
       progressIndicator: loader,
       child: SingleChildScrollView(
-        padding: EdgeInsets.all(24.sp),
+        padding: EdgeInsets.all(24.sp)
+            .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Form(
           key: _formKey,
           child: Column(

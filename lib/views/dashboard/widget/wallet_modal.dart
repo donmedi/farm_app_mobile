@@ -1,6 +1,7 @@
 import 'package:farm_loan_app/layout/custom_button.dart';
 import 'package:farm_loan_app/routes/custom_router.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
+import 'package:farm_loan_app/tools/helper.dart';
 import 'package:farm_loan_app/views/auth_screens/model/authModel.dart';
 import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
 import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
@@ -16,6 +17,7 @@ class WalletModalWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthModel? userData = context.watch<AuthProvider>().userData;
     String outstanding = context.watch<DashboardServices>().outstandingBal;
+
     return Container(
       width: double.maxFinite,
       padding: EdgeInsets.all(24.sp),
@@ -53,7 +55,7 @@ class WalletModalWidget extends StatelessWidget {
                   height: 8.h,
                 ),
                 Text(
-                  'NGN ${outstanding}',
+                  'NGN ${digitConverterString(outstanding)}',
                   style:
                       TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
                 ),
@@ -82,7 +84,7 @@ class WalletModalWidget extends StatelessWidget {
                     height: 8.h,
                   ),
                   Text(
-                    'NGN ${userData?.wallet?.balance}',
+                    'NGN ${digitConverterString(userData?.wallet?.balance ?? '0')}',
                     style:
                         TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w700),
                   ),

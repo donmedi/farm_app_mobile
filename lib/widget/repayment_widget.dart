@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:farm_loan_app/constant/color_const.dart';
 import 'package:farm_loan_app/layout/custom_button.dart';
 import 'package:farm_loan_app/layout/custom_form_input.dart';
@@ -66,7 +68,8 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.all(24.sp),
+      padding: EdgeInsets.all(24.sp)
+          .copyWith(bottom: MediaQuery.of(context).viewInsets.bottom),
       child: Form(
         key: _formKey,
         child: Column(
@@ -211,6 +214,7 @@ class _LoanRepaymentWidgetState extends State<LoanRepaymentWidget> {
             CustomPrimaryButton(
                 title: 'Continue',
                 callBack: () {
+                  log('continue');
                   if (_formKey.currentState!.validate()) {
                     if (_paymentType == 'farm_produce') {
                       customBottomSheet(
