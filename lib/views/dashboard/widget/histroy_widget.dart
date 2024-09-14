@@ -65,7 +65,11 @@ class HistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        customBottomSheet(context, TransactionDetails());
+        customBottomSheet(
+            context,
+            TransactionDetails(
+              model: item,
+            ));
       },
       leading: CircleAvatar(
         backgroundColor:
