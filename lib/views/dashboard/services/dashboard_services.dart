@@ -93,4 +93,19 @@ class DashboardServices extends ChangeNotifier {
       NotificationClass.showFailedToast(context, 'Error', response['message']);
     }
   }
+
+  List notifications = [];
+  void fetchNotification(context) async {
+    final request = await RequestHandler.handleApiRequest(context,
+        link: '/notifications/get-all', type: 'get', callBody: {});
+
+    var response = request?.data;
+    log('notifications ${response}');
+    if (response['success'] == true) {
+      notifications = response['data'];
+      notifyListeners();
+    } else {
+      NotificationClass.showFailedToast(context, 'Error', response['message']);
+    }
+  }
 }

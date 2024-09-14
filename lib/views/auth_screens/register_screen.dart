@@ -36,12 +36,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       inAsyncCall: _loading,
       progressIndicator: loader,
       child: Scaffold(
-        body: SingleChildScrollView(
+        body: Container(
           padding: EdgeInsets.symmetric(horizontal: 20, vertical: 60),
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               // mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(

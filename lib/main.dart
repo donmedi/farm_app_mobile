@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:farm_loan_app/data/shared_pref_helper.dart';
 import 'package:farm_loan_app/firebase_options.dart';
 import 'package:farm_loan_app/layout/in_app_notification.dart';
 import 'package:farm_loan_app/routes/app_routes.dart';
@@ -27,39 +28,46 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // log("Handling a background message: ${message.messageId}");
 }
 
-void main() async {
+bool isTestMode = false;
+
+void main({bool testMode = false}) async {
   await Hive.initFlutter();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (!isTestMode) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+// Skip Firebase messaging initialization in test mode
+  if (!isTestMode) {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: true,
-    badge: true,
-    carPlay: false,
-    criticalAlert: true,
-    provisional: false,
-    sound: true,
-  );
-  // print('User granted permission: ${settings.authorizationStatus}');
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    // log('Got a message whilst in the foreground!');
-    // log('Message data: ${message}');
-    if (message.notification != null) {
-      log('Message also contained a notification: ${message.notification}');
-    }
-  });
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: true,
+      badge: true,
+      carPlay: false,
+      criticalAlert: true,
+      provisional: false,
+      sound: true,
+    );
+    // print('User granted permission: ${settings.authorizationStatus}');
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // log('Got a message whilst in the foreground!');
+      // log('Message data: ${message}');
+      if (message.notification != null) {
+        log('Message also contained a notification: ${message.notification}');
+      }
+    });
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  messaging.getToken().then((value) {
-    String token = value!;
-    // _setToken(token);
-    log('Token $token');
-  });
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    messaging.getToken().then((value) {
+      String token = value!;
+      SharedPrefsHelper.saveValue('fcmToken', token);
+      log('Token $token');
+    });
+  }
 
   box = await Hive.openBox('box');
   box.put('token', '');

@@ -134,7 +134,7 @@ class _WithdrawModalState extends State<WithdrawModal> {
                     //     context, 'Withdraw success, your transaction is pending.');
                   }),
               SizedBox(
-                height: 40.h,
+                height: 70.h,
               )
             ],
           ),

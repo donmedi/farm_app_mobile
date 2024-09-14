@@ -20,9 +20,16 @@ class AuthProvider extends ChangeNotifier {
   }
 
   void login(context, Map<String, dynamic> data, Function callBack) async {
+    String? token = await SharedPrefsHelper.getValue('fcmToken') ?? '';
     callBack(true);
+    log('fcmToken $token');
     final request = await RequestHandler.handleApiRequest(context,
-        link: '/user/login', type: 'post', callBody: {...data});
+        link: '/user/login',
+        type: 'post',
+        callBody: {
+          ...data,
+          'fcmToken': token,
+        });
     callBack(false);
     var response = request?.data;
 

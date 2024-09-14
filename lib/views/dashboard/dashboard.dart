@@ -74,6 +74,10 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
           children: [
             CircleAvatar(
               backgroundColor: ColorConst.mainPrimaryColor,
+              child: Text(
+                '${userData?.firstName![0]}${userData?.lastName![0]}',
+                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w800),
+              ),
             ),
             SizedBox(
               width: 10.w,
