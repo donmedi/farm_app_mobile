@@ -100,6 +100,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   CustomPrimaryButton(
                       title: 'Submit',
                       callBack: () {
+                        // update profile
                         if (_formKey.currentState!.validate()) {
                           context.read<AuthProvider>().update_profile(context, {
                             'firstName': _firstNameController.text,

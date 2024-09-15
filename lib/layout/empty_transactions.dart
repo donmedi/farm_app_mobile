@@ -3,7 +3,8 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EmptyTransaction extends StatelessWidget {
-  const EmptyTransaction({super.key});
+  final String? text;
+  const EmptyTransaction({super.key, this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class EmptyTransaction extends StatelessWidget {
               height: 10.h,
             ),
             Text(
-              'No Transaction',
+              text == null || text == '' ? 'No Transaction' : (text ?? ''),
               style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
             )
           ],

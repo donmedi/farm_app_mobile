@@ -28,51 +28,50 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // log("Handling a background message: ${message.messageId}");
 }
 
-bool isTestMode = false;
-
-void main({bool testMode = false}) async {
+void main() async {
   await Hive.initFlutter();
 
-  if (!isTestMode) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
 // Skip Firebase messaging initialization in test mode
-  if (!isTestMode) {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: true,
-      badge: true,
-      carPlay: false,
-      criticalAlert: true,
-      provisional: false,
-      sound: true,
-    );
-    // print('User granted permission: ${settings.authorizationStatus}');
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // log('Got a message whilst in the foreground!');
-      // log('Message data: ${message}');
-      if (message.notification != null) {
-        log('Message also contained a notification: ${message.notification}');
-      }
-    });
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    messaging.getToken().then((value) {
-      String token = value!;
-      SharedPrefsHelper.saveValue('fcmToken', token);
-      log('Token $token');
-    });
-  }
-
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: true,
+    badge: true,
+    carPlay: false,
+    criticalAlert: true,
+    provisional: false,
+    sound: true,
+  );
+  // print('User granted permission: ${settings.authorizationStatus}');
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    // log('Got a message whilst in the foreground!');
+    // log('Message data: ${message}');
+    if (message.notification != null) {
+      log('Message also contained a notification: ${message.notification}');
+    }
+  });
+  //run firebase token in background
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  messaging.getToken().then((value) {
+    String token = value!;
+    //save fcm token
+    SharedPrefsHelper.saveValue('fcmToken', token);
+    log('Token $token');
+  });
+  //hive box for saving
   box = await Hive.openBox('box');
   box.put('token', '');
+  // forcing device to portrait
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+
+  //moultiprovider for local storage
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => AuthProvider()),
     ChangeNotifierProvider(create: (_) => DashboardServices()),
@@ -90,6 +89,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+  //new message initialization for firebase
   void _onNewMessage() async {
     RemoteMessage? initialMessage =
         await FirebaseMessaging.instance.getInitialMessage();
@@ -104,6 +104,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     _onNewMessage();
+    // listen for new messages on firebase
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
         showOverlayNotification((context) {
@@ -117,17 +118,23 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
+        // wrapper screen-util package for
         designSize: const Size(440, 896),
         minTextAdapt: true,
-        splitScreenMode: true,
+        splitScreenMode: false,
         builder: (BuildContext context, child) => OverlaySupport.global(
             child: ToastificationWrapper(
+                // notification wraopper
                 child: MaterialApp(
+                    // app ui entry point or wrapper
                     title: 'Farm Loan App',
-                    debugShowCheckedModeBanner: false,
+                    debugShowCheckedModeBanner:
+                        false, // remove flutter debug banner
                     navigatorKey: AppRouter.navigatorKey,
-                    onGenerateRoute: AppRouter.generateRoute,
-                    initialRoute: '/welcome',
-                    theme: ThemeType.light))));
+                    onGenerateRoute:
+                        AppRouter.generateRoute, //route definitions
+                    initialRoute: '/welcome', // first page
+                    theme: ThemeType.light // default theme
+                    ))));
   }
 }

@@ -1,7 +1,9 @@
+import 'package:farm_loan_app/constant/color_const.dart';
 import 'package:farm_loan_app/layout/custom_button.dart';
 import 'package:farm_loan_app/layout/custom_form_input.dart';
 import 'package:farm_loan_app/layout/custom_modal.dart';
 import 'package:farm_loan_app/routes/custom_router.dart';
+import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/tools/helper.dart';
 import 'package:farm_loan_app/views/auth_screens/model/authModel.dart';
 import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
@@ -31,6 +33,20 @@ class _WithdrawModalState extends State<WithdrawModal> {
   @override
   Widget build(BuildContext context) {
     AuthModel? userData = context.watch<AuthProvider>().userData;
+
+    List _banks = [
+      'FirstBank',
+      'Guarantee Trust Bank',
+      'FCMB',
+      "Union Bank",
+      'Unity Bank',
+      "Paralex Bank",
+      'Providus Bank',
+      'Stanbic Bank',
+      'Sterling Bank',
+      'Wema Bank',
+      'UBA Bank'
+    ];
 
     return ModalProgressHUD(
       inAsyncCall: _loading,
@@ -78,10 +94,62 @@ class _WithdrawModalState extends State<WithdrawModal> {
               SizedBox(
                 height: 14.h,
               ),
-              CustomNumberInput(
+              SizedBox(
+                height: 10.h,
+              ),
+              CustomFormDisabledInput(
+                  label: 'Bank Name',
+                  controller: _bankName,
+                  valText: 'Bank Name is required',
+                  placeHolder: 'Bank Name',
+                  callBack: () {
+                    customBottomSheet(
+                        context,
+                        SingleChildScrollView(
+                          padding: EdgeInsets.all(20.sp),
+                          // width: double.maxFinite,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Select Bank',
+                                style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w700),
+                              ),
+                              SizedBox(
+                                height: 20.h,
+                              ),
+                              ..._banks.map((e) {
+                                return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _bankName.text = e;
+                                      });
+                                      CustomRouters.routePop(context);
+                                    },
+                                    child: Container(
+                                        width: double.maxFinite,
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                bottom: BorderSide(
+                                                    width: 1.sp,
+                                                    color: ColorConst
+                                                        .borderColor))),
+                                        padding: EdgeInsets.all(15.sp),
+                                        child: Text('$e')));
+                              })
+                            ],
+                          ),
+                        ));
+                  }),
+              SizedBox(
+                height: 14.h,
+              ),
+              CustomNumberInput2(
                 label: 'Account Number',
                 controller: _accountNumber,
-                minAmount: '-0',
+                minLenght: 10,
                 validationText: 'Account Number is required',
                 hintText: 'Accont Number',
               ),
@@ -95,22 +163,7 @@ class _WithdrawModalState extends State<WithdrawModal> {
                   placeHolder: 'Account Name',
                   callBack: (e) {}),
               SizedBox(
-                height: 14.h,
-              ),
-              SizedBox(
-                height: 10.h,
-              ),
-              CustomFormInput(
-                  label: 'Bank Name',
-                  controller: _bankName,
-                  valText: 'Bank Name is required',
-                  placeHolder: 'Bank Name',
-                  callBack: (e) {}),
-              SizedBox(
-                height: 14.h,
-              ),
-              SizedBox(
-                height: 10.h,
+                height: 24.h,
               ),
               CustomPrimaryButton(
                   title: 'Continue',

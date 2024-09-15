@@ -68,6 +68,7 @@ class _UpdatePasswordScreenState extends State<UpdatePasswordScreen> {
                 CustomPrimaryButton(
                     title: 'Submit',
                     callBack: () {
+                      //update password
                       if (_formKey.currentState!.validate()) {
                         context.read<AuthProvider>().update_password(context, {
                           'oldPassword': _oldController.text,

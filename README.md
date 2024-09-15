@@ -6,21 +6,13 @@ A new Flutter project.
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
+flutter run - to start the application
+flutter test - to run test
+flutter build apk - to create an android apk build
 
 The project has the following folder structure:
 
-- **backend**: Contains the Node.js server code.
 - **mobile app**: Contains the Dart (Flutter) mobile app code.
-
 
 Flutter packages used in the Mobile app
 
@@ -43,25 +35,3 @@ hive: A lightweight and blazing-fast key-value database written in pure Dart. It
 flutter_launcher_icons: A package that simplifies the process of updating app launcher icons for both Android and iOS. It helps in creating and setting the app's launcher icons from a single source image.
 
 hive_flutter: A Flutter plugin that makes it easy to integrate Hive into a Flutter project, providing additional functionality like automatic handling of Flutter's lifecycle and easy access to the Hive database.
-
-Node Js packages used on the backend
-
-bcryptjs: A library for hashing passwords. It provides methods to create and compare password hashes, helping to secure user credentials.
-
-cors: A middleware for enabling Cross-Origin Resource Sharing (CORS) in your Express applications. It allows your API to handle requests from different domains securely.
-
-cross-env: A utility for setting environment variables across different operating systems. It ensures that environment variables work consistently in various environments.
-
-dotenv: A module that loads environment variables from a .env file into process.env. It helps in managing configuration variables for different environments.
-
-express: A fast, minimal web framework for Node.js, used for building web applications and APIs. It simplifies the process of routing, handling requests, and managing middleware.
-
-jsonwebtoken: A library to create, sign, and verify JSON Web Tokens (JWTs). It’s commonly used for securing APIs through token-based authentication.
-
-moment: A date manipulation library that simplifies working with dates and times in JavaScript. It provides formatting, parsing, and manipulating dates.
-
-mongoose: An Object Data Modeling (ODM) library for MongoDB and Node.js. It provides a schema-based solution to model application data and manage relationships between data.
-
-nodemailer: A module for sending emails in Node.js. It supports various transport methods like SMTP and allows for the easy integration of email functionality into your applications.
-
-validator: A library of string validators and sanitizers. It helps in validating and sanitizing user inputs to ensure data integrity and security.

@@ -132,42 +132,46 @@ class _AccountScreenState extends State<AccountScreen> {
               SizedBox(
                 height: 8.h,
               ),
-              // InkWell(
-              //     onTap: () {
-              //       // Navigator.of(context).pushNamed('/refearer');
-              //       // Share.share(
-              //       //     'Invite your friends and family to UNICXCHANGE');
-              //     },
-              //     child: Card(
-              //       child: Container(
-              //           padding:
-              //               EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              //           child: Row(
-              //             children: [
-              //               Icon(
-              //                 FeatherIcons.share,
-              //                 size: 18.sp,
-              //                 color: ColorConst.mainPrimaryColor,
-              //               ),
-              //               SizedBox(
-              //                 width: 10.w,
-              //               ),
-              //               Text(
-              //                 'Share With Friends',
-              //                 style: TextStyle(color: Color(0xff302530)),
-              //               ),
-              //               Spacer(),
-              //               Icon(
-              //                 Icons.chevron_right,
-              //                 size: 22.sp,
-              //                 color: Colors.grey[600],
-              //               )
-              //             ],
-              //           )),
-              //     )),
-              SizedBox(
-                height: 8.h,
-              ),
+              userData?.kyc == false
+                  ? Column(
+                      children: [
+                        InkWell(
+                            onTap: () {
+                              CustomRouters.routePushWithName(
+                                  context, AppRouter.kyc_screen);
+                            },
+                            child: Card(
+                              child: Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        FeatherIcons.share,
+                                        size: 18.sp,
+                                        color: ColorConst.mainPrimaryColor,
+                                      ),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Text(
+                                        'KYC',
+                                        style:
+                                            TextStyle(color: Color(0xff302530)),
+                                      ),
+                                      Spacer(),
+                                      Icon(
+                                        Icons.chevron_right,
+                                        size: 22.sp,
+                                        color: Colors.grey[600],
+                                      )
+                                    ],
+                                  )),
+                            )),
+                        SizedBox(height: 8.h),
+                      ],
+                    )
+                  : SizedBox(),
               InkWell(
                   onTap: () {
                     customBottomSheet(context, SupportWidget());

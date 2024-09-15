@@ -1,4 +1,5 @@
 import 'package:farm_loan_app/layout/main_bottom_nav.dart';
+import 'package:farm_loan_app/views/account/screen/kyc_screen.dart';
 import 'package:farm_loan_app/views/account/screen/profile_update.dart';
 import 'package:farm_loan_app/views/account/screen/update_password.dart';
 import 'package:farm_loan_app/views/auth_screens/forgot_password.dart';
@@ -22,6 +23,7 @@ class AppRouter {
   static const update_password = '/update_password';
   static const update_profile = '/update_profile';
   static const forgot_password = '/forgot_password';
+  static const kyc_screen = '/kyc';
 
   static final navigatorKey = GlobalKey<NavigatorState>();
 
@@ -54,6 +56,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => EditProfileScreen());
       case '/forgot_password':
         return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
+      case '/kyc':
+        return MaterialPageRoute(builder: (_) => KycScreen());
       default:
         return MaterialPageRoute(builder: (_) => const SizedBox());
     }

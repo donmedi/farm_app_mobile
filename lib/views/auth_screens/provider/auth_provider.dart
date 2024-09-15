@@ -80,6 +80,23 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  void update_kyc(context, Map<String, dynamic> data, Function callBack) async {
+    callBack(true);
+    final request = await RequestHandler.handleApiRequest(context,
+        link: '/user/add_kyc', type: 'post', callBody: {...data});
+    callBack(false);
+    var response = request?.data;
+
+    if (response['success'] == true) {
+      getProfile(context);
+      NotificationClass.showSuccessToast(
+          context, 'Success', response['message']);
+      CustomRouters.routePushWithName(context, AppRouter.account);
+    } else {
+      NotificationClass.showFailedToast(context, "Error", response['message']);
+    }
+  }
+
   void update_profile(
       context, Map<String, dynamic> data, Function callBack) async {
     callBack(true);

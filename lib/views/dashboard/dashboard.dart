@@ -6,6 +6,7 @@ import 'package:farm_loan_app/routes/app_routes.dart';
 import 'package:farm_loan_app/routes/custom_router.dart';
 import 'package:farm_loan_app/tools/cutomBottomSheet.dart';
 import 'package:farm_loan_app/tools/helper.dart';
+import 'package:farm_loan_app/tools/toaster.dart';
 import 'package:farm_loan_app/views/auth_screens/model/authModel.dart';
 import 'package:farm_loan_app/views/auth_screens/provider/auth_provider.dart';
 import 'package:farm_loan_app/views/dashboard/services/dashboard_services.dart';
@@ -40,6 +41,7 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AuthModel? userData = context.watch<AuthProvider>().userData;
     List<RouteClass> dataList = [
       RouteClass(
           title: 'Wallet',
@@ -50,7 +52,13 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
       RouteClass(
           title: 'Request',
           callBack: () {
-            customBottomSheet(context, RequestLoanWidget());
+            if (userData?.kyc == false) {
+              NotificationClass.showWarningToast(context, 'Unverified',
+                  'Complete your KYC to request for loans');
+              CustomRouters.routePushWithName(context, AppRouter.kyc_screen);
+            } else {
+              customBottomSheet(context, RequestLoanWidget());
+            }
           },
           icon: Icons.account_balance),
       RouteClass(
@@ -63,7 +71,6 @@ class _DahsboardScreenState extends State<DahsboardScreen> {
           icon: Icons.handshake),
     ];
 
-    AuthModel? userData = context.watch<AuthProvider>().userData;
     List<HistoryModel> historyList =
         context.watch<DashboardServices>().histories;
 

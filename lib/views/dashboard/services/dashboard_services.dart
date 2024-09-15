@@ -42,7 +42,7 @@ class DashboardServices extends ChangeNotifier {
     if (response['success'] == true) {
       CustomRouters.routePop(context);
       Provider.of<AuthProvider>(context, listen: false).getProfile(context);
-      successModalMinimal(context, 'Loan Reqest Successful');
+      successModalMinimal(context, 'Withdrawal Successful');
     } else {
       NotificationClass.showFailedToast(context, 'Error', response['message']);
     }
@@ -105,7 +105,8 @@ class DashboardServices extends ChangeNotifier {
       notifications = response['data'];
       notifyListeners();
     } else {
-      NotificationClass.showFailedToast(context, 'Error', response['message']);
+      log('notification ${response['message']}');
+      // NotificationClass.showFailedToast(context, 'Error', response['message']);
     }
   }
 }

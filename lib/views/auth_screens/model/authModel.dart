@@ -7,10 +7,12 @@ class AuthModel {
   String? email;
   String? createdAt;
   String? updatedAt;
+  bool? kyc;
 
   AuthModel(
       {this.wallet,
       this.sId,
+      this.kyc,
       this.firstName,
       this.lastName,
       this.phone,
@@ -26,6 +28,7 @@ class AuthModel {
     lastName = json['lastName'];
     phone = json['phone'];
     email = json['email'];
+    kyc = json['kyc'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
   }
@@ -35,6 +38,7 @@ class AuthModel {
     if (this.wallet != null) {
       data['wallet'] = this.wallet!.toJson();
     }
+    data['kyc'] = this.kyc;
     data['_id'] = this.sId;
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
